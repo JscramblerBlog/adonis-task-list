@@ -1,21 +1,12 @@
-**Article Title:** Build authentication, email, website and API with Adonis 3
+**Article Title:** Build a task list complete with authentication using SQL, Node.js and Adonis
 
 **Description:**
 
-Adonis.js is a powerful fullstack framework built from Node.js and ES6 generator functions. Adonis takes inspiration from Laravel and Ruby On Rails to provide an opinionated web development framework for Node.js. In this tutorial we will generate a Node.js server that talks to a MySQL database to render content in the browser. Using Adonis' built in tools we will also configure our application to authenticate users and send emails.
-
-**Ideas to Present in Article:**
-
-- Introduction to Adonis.js, what it does and why the tool was developed in the first place
-- Generate a new Adonis.js application and install dependencies
-- Configure our database and generate our API models
-- Define and develop routes for Creating, Updating and Deleting records from the database
-- Add authentication scaffold
-- Send emails from the application using a webhook
-- Conclusion
+Adonis.js is a powerful fullstack framework built from Node.js and ES6 generator functions. Adonis takes inspiration from Laravel and Ruby On Rails to provide an opinionated web development framework for Node.js. In this tutorial we will generate a Node.js server that talks to a MySQL database to render content in the browser. Using Adonis' built in tools we will also configure our application to authenticate users and define access control
 
 
-# Build authentication, email, website and API with Adonis 3
+# Build a web server, SQL database and authentication with Adonis 3
+
  
 ![Introduction to Adonis Node.js framework](https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F36670640%2F210609116707%2F1%2Foriginal.jpg?w=800&rect=16%2C0%2C2142%2C1071&s=d3c933b0c65f21cb8e1a828d3500aac1)
  
