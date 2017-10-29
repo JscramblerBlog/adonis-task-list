@@ -13,11 +13,6 @@ class AuthController {
 		const email = request.input('email')
         const password = request.input('password')
 
-        const loginMessage = {
-            success: 'Logged-in Successfully!',
-            error: 'Invalid Credentials'
-        }
-
         const attemptUser = yield User.findByOrFail('email', email)
 
         // Attempt to login with email and password
@@ -26,7 +21,7 @@ class AuthController {
             return response.redirect('/')
         }
 
-        yield response.sendView('auth.login', { error: loginMessage.error })
+        yield response.sendView('auth.login')
 	}
 
 	* showRegister(request, response) {

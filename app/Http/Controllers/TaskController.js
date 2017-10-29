@@ -3,11 +3,12 @@
 class TaskController {
 
   static get inject () { 
-    return ['App/Model/Task']  
+    return ['App/Model/Task', 'App/Model/User']  
   }
 
-  constructor (Task) { 
+  constructor (Task, User) { 
     this.Task = Task
+    this.User = User
   }
 
   * index(request, response) {
@@ -48,8 +49,10 @@ class TaskController {
   * show(request, response) {
     const task = yield this.Task.find(request.param('id'))
 
+    const owner = yield this.User.find(task.user_id)
+
     if (task) {
-      yield response.sendView('tasks.show', { task: task.toJSON() })
+      yield response.sendView('tasks.show', { task: task.toJSON(), owner })
       return
     }
 
