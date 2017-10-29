@@ -34,7 +34,7 @@
           {% else %}
             <div class="navbar-item has-dropdown is-hoverable">
               <a class="navbar-link">
-                {{ currentUser.username }}
+                {{ currentUser.username }} {{ currentUser.id }}
               </a>
               <div class="navbar-dropdown">
                 <a class="navbar-item" href='/logout'>

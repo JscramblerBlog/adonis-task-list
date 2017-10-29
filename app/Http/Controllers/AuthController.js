@@ -18,7 +18,7 @@ class AuthController {
             error: 'Invalid Credentials'
         }
 
-        const attemptUser = yield User.find({email})
+        const attemptUser = yield User.findByOrFail('email', email)
 
         // Attempt to login with email and password
         const authCheck = yield request.auth.login(attemptUser)

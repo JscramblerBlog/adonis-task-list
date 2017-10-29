@@ -1,7 +1,5 @@
 'use strict'
 
-// const Task = use('App/Model/Task') 
-
 class TaskController {
 
   static get inject () { 
@@ -18,19 +16,33 @@ class TaskController {
   }
 
   * create(request, response) {
+    const isLoggedIn = yield request.auth.check()
+
+    if (!isLoggedIn) {
+      response.redirect('/login')
+    }
+
     yield response.sendView('tasks.create')
   }
 
   * store(request, response) {
+    const isLoggedIn = yield request.auth.check()
+
+    if (!isLoggedIn) {
+      response.redirect('/login')
+    }
+
     let task = request.only('title', 'description');
 
     const newTask = new this.Task({
       title: task.title,
       description: task.description,
-      user_id: request.currentUser
+      user_id: request.currentUser.id
     })
 
     yield newTask.save()
+
+    response.redirect('/tasks')
   }
 
   * show(request, response) {
@@ -49,11 +61,22 @@ class TaskController {
   }
 
   * update(request, response) {
-    //
+    const isLoggedIn = yield request.auth.check()
+
+    if (!isLoggedIn) {
+      response.redirect('/login')
+    }
   }
 
   * destroy(request, response) {
-    //
+    const isLoggedIn = yield request.auth.check()
+
+    if (!isLoggedIn) {
+      response.redirect('/login')
+    }
+
+    const task = yield this.Task.findBy('id', request.param('id'))
+    yield task.delete()
   }
 
 }
