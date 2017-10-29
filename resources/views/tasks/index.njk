@@ -2,9 +2,13 @@
 
 {% block content %}
   <div>
+  	<h1 class='title'>Tasks</h1>
+
     {% for task in tasks %} 
-      <div class="task">
-        <h2><a href=""> {{ task.title }} </a></h2> 
+      <div class="content">
+        <h2>
+        	{{ linkTo('tasks.show', task.title, { id: task.id }, '_blank') }}
+        </h2> 
         <p> {{ task.description }} </p>
       </div>
     {% endfor %}
