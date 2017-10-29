@@ -277,6 +277,47 @@ $ ./ace make:controller Task --resource
 
 This command generates a file in **app/Http/Controllers/TaskController.js** that stubs out the various methods we defined above. The methods will be blank after we generate the command. Take the liberty of filling them out. We're going to use [Lucid](https://adonisjs.com/docs/3.2/lucid) which is Adonis' implementation of ActiveRecord. Essentially it is an ORM so we don't have to write raw SQL queries to fetch our data. 
 
+```
+'use strict'
+
+const Task = use('App/Model/Task') 
+
+class TaskController {
+
+  * index(request, response) {
+    const tasks = yield Task.all() 
+    yield response.sendView('tasks/index', { tasks: tasks.toJSON() })
+  }
+
+  * create(request, response) {
+    //
+  }
+
+  * store(request, response) {
+    //
+  }
+
+  * show(request, response) {
+    //
+  }
+
+  * edit(request, response) {
+    //
+  }
+
+  * update(request, response) {
+    //
+  }
+
+  * destroy(request, response) {
+    //
+  }
+
+}
+
+module.exports = TaskController
+```
+
 
 
  
