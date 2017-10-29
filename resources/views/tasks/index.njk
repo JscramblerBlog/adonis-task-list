@@ -1,0 +1,12 @@
+{% extends 'master' %}
+
+{% block content %}
+  <div>
+    {% for task in tasks %} 
+      <div class="task">
+        <h2><a href=""> {{ task.title }} </a></h2> 
+        <p> {{ task.description }} </p>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

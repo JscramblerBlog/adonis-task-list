@@ -63,6 +63,8 @@ As outlined in [the documentation](https://adonisjs.com/docs/3.2/directory-struc
 
 For developers familiar with [Laravel 5](https://laravel.com/) this structure is immediately recognizable, particularly the app, config, database, storage and resources directories. If you are not familiar with Laravel know that Adonis follows and Model View Controller (MVC) pattern first pioneered and popularized in web servers by Ruby On Rails.
 
+## Create a local database
+
 We will define a Task database model that will correspond to a MySQL table. You will need to have MySQL set up on your local machine. 
 
 ```
@@ -171,11 +173,13 @@ create: database/migrations/1509056843033_create_tokens_table.js
 create: app/Model/User.js
 ```
 
+This command generates a users table and user model that we'll use as a starting point for our application. The tokens model and tokens table are for storing the session information for a particular user. A user will remained logged in for the duration of their session and a session token will be associated with a user. Check out the files in **app/Model** and you'll see that a user has many Tokens and a token belongs to a user. If you are not familiar with SQL database relationships, Ruby On Rails has an excellent guide that covers the concepts [here](http://guides.rubyonrails.org/association_basics.html)
+
 ## Seed database
 
-Adonis has built in capabilities for seeding data. Under the hood it relies on [chance.js](http://chancejs.com/) to mock out information.
+Adonis has built in capabilities for seeding data. We want to create some users and tasks so that when we fire up our server we don't see blank data. Adonis uses [chance.js](http://chancejs.com/) under the hood to mock out information. We can call chance methods in our database factories. The Adonis docs on seeds and factories is available [here](https://adonisjs.com/docs/3.2/seeds-and-factories)
 
-Database seeder:
+First we call our factories from the database seeder in **database/seeds/Database.js**:
 
 ```
 const Factory = use('Factory')
@@ -193,7 +197,7 @@ class DatabaseSeeder {
 module.exports = DatabaseSeeder
 ```
 
-Database factories:
+If you are not familiar with the concept of datbase factories they are essentially blueprints for creating instances of database records. As you can see in the code above we call the model factories to create five users and five tasks. These model factories are defined in **database/factory.js** and that file can look like so:
 
 ```
 Factory.blueprint('App/Model/User', (fake) => {
@@ -213,7 +217,9 @@ Factory.blueprint('App/Model/Task', (fake) => {
 })
 ```
 
-In order to create our users table and the corresponding database records run the following commands.
+Here we are using a chance.js to populate random sentences, usernames, emails, passwords and paragraphs. These will all be unique database records that we can populate our database with. If you are brand new to the concept of database seeding and model factories Laravel has some great [documentation on the topic](https://laravel.com/docs/5.5/database-testing#writing-factories).
+
+In order to create our users table and the corresponding database records we must run the following commands.
 
 ```
 $ ./ace migration:reset 
@@ -225,6 +231,51 @@ Reset will drop the tables and clear the database. The run command will create a
 
 To check that it worked head into Sequel Pro and we’ll see five users and five tasks that have a user id of one and other various values.
 
+## Rendering our seeded data to the screen
+
+### Define route resource 
+
+So now we've got a web server running and records in the database but it doesn't do us much good unless we can rendor this information to a webpage. In order to do that we're going to need to define some routes and controllers.
+
+Adonis, similar to other MVC frameworks, has the concept of [resourceful routes](https://adonisjs.com/docs/3.2/routing#_resourceful_routes). It is common to need to create, list, show, update and delete a record and can be cumbersome to define all of these actions separetly. By embracing convention over configuration we can define all of these actions within one line in the **app/Http/routes.js** file:
+
+```
+Route.resource('tasks', 'TaskController')
+```
+
+After adding this line, run `./ace route:list` from the command line and we'll see all the routes defined for our application:
+
+```
+┌────────┬───────────┬─────────────────┬────────────────────────┬─────────────┬───────────────┐
+│ Domain │ Method    │ URI             │ Action                 │ Middlewares │ Name          │
+├────────┼───────────┼─────────────────┼────────────────────────┼─────────────┼───────────────┤
+│        │ GET|HEAD  │ /               │ Closure                │             │ /             │
+├────────┼───────────┼─────────────────┼────────────────────────┼─────────────┼───────────────┤
+│        │ GET|HEAD  │ /tasks          │ TaskController.index   │             │ tasks.index   │
+├────────┼───────────┼─────────────────┼────────────────────────┼─────────────┼───────────────┤
+│        │ GET|HEAD  │ /tasks/create   │ TaskController.create  │             │ tasks.create  │
+├────────┼───────────┼─────────────────┼────────────────────────┼─────────────┼───────────────┤
+│        │ POST      │ /tasks          │ TaskController.store   │             │ tasks.store   │
+├────────┼───────────┼─────────────────┼────────────────────────┼─────────────┼───────────────┤
+│        │ GET|HEAD  │ /tasks/:id      │ TaskController.show    │             │ tasks.show    │
+├────────┼───────────┼─────────────────┼────────────────────────┼─────────────┼───────────────┤
+│        │ GET|HEAD  │ /tasks/:id/edit │ TaskController.edit    │             │ tasks.edit    │
+├────────┼───────────┼─────────────────┼────────────────────────┼─────────────┼───────────────┤
+│        │ PUT|PATCH │ /tasks/:id      │ TaskController.update  │             │ tasks.update  │
+├────────┼───────────┼─────────────────┼────────────────────────┼─────────────┼───────────────┤
+│        │ DELETE    │ /tasks/:id      │ TaskController.destroy │             │ tasks.destroy │
+└────────┴───────────┴─────────────────┴────────────────────────┴─────────────┴───────────────┘
+```
+
+### Define controller 
+
+Now our route endpoints are defined, but if we fire up the dev server and head to `localhost:3333/tasks` we see an error that "Cannot find module TaskController". To create a task controller run:
+
+```
+$ ./ace make:controller Task --resource 
+```
+
+This command generates a file in **app/Http/Controllers/TaskController.js** that stubs out the various methods we defined above. The methods will be blank after we generate the command. Take the liberty of filling them out. We're going to use [Lucid](https://adonisjs.com/docs/3.2/lucid) which is Adonis' implementation of ActiveRecord. Essentially it is an ORM so we don't have to write raw SQL queries to fetch our data. 
 
 
 
