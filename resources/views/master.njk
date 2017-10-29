@@ -17,17 +17,32 @@
   <div class='container'>
     <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
-        <a class='navbar-item' ref='/'>Task List</a>
+        <a class='navbar-item' href='/'>Task Listr</a>
       </div>
       <div class='navbar-menu'>
         <div class='navbar-start'>
           <a class='navbar-item' href='/tasks'>Tasks</a>
-      
-          <a class='navbar-item' href='/tasks'>Create task</a>
+          
+          {% if currentUser %}
+            <a class='navbar-item' href='/tasks/create'>Create task</a>
+          {% endif %}
         </div>
         <div class='navbar-end'>
-          <a class='navbar-item' href='/login'>Login</a>
-          <a class='navbar-item' href='/register'>Register</a>
+          {% if not currentUser %}
+            <a class='navbar-item' href='/login'>Login</a>
+            <a class='navbar-item' href='/register'>Register</a>
+          {% else %}
+            <div class="navbar-item has-dropdown is-hoverable">
+              <a class="navbar-link">
+                {{ currentUser.username }}
+              </a>
+              <div class="navbar-dropdown">
+                <a class="navbar-item" href='/logout'>
+                  Logout
+                </a>
+              </div>
+            </div>
+          {% endif %}
         </div>
       </div>
     </nav>

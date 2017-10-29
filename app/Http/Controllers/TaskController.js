@@ -22,8 +22,15 @@ class TaskController {
   }
 
   * store(request, response) {
-    // request.currentUser
     let task = request.only('title', 'description');
+
+    const newTask = new this.Task({
+      title: task.title,
+      description: task.description,
+      user_id: request.currentUser
+    })
+
+    yield newTask.save()
   }
 
   * show(request, response) {

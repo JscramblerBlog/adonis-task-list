@@ -20,3 +20,11 @@ const Route = use('Route')
 Route.on('/').render('welcome')
 
 Route.resource('tasks', 'TaskController')
+
+Route.get('/login', 'AuthController.showLogin')
+Route.post('/login', 'AuthController.login')
+
+Route.get('/register', 'AuthController.showRegister')
+Route.post('register', 'AuthController.register')
+
+Route.get('/logout', 'AuthController.logout')

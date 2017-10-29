@@ -1,0 +1,18 @@
+{% extends 'master' %}
+
+{% block content %}
+  <h1>Register</h1>
+
+  <form method="POST" action="/register">
+
+    {{ csrfField }}
+    <input type='text' placeholder='Username' name='username' class='input'>
+
+    <input type='email' placeholder='Email' name='email' class='input'>
+
+    <input type='password' placeholder='Password' name='password' class='input'>
+
+    <input type='submit' value='Submit'>
+
+  </form>
+{% endblock %}

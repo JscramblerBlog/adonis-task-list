@@ -318,8 +318,14 @@ class TaskController {
 module.exports = TaskController
 ```
 
+## Authentication continued
+Make an auth controller:
 
+```
+$ ./ace make:controller Auth 
+```
 
+Thank you to [Auth0 post](https://auth0.com/blog/creating-your-first-app-with-adonisj-and-adding-authentication/) covering the topic
  
  
  
